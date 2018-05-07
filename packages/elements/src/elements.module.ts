@@ -9,7 +9,7 @@ import { ToggleComponent } from './toggle/toggle.component';
   declarations: [ToggleComponent],
   entryComponents: [ToggleComponent],
 })
-export class AppModule {
+export class ElementsModule {
   constructor(private injector: Injector) {
   }
 
