@@ -1,0 +1,15 @@
+<label class="sy-toggle" [ngClass]="{'sy-toggle--disabled': disabled}">
+  <span class="sy-toggle__switch">
+    <input
+      class="sy-toggle__switch-input"
+      type="{{type}}"
+      name="{{name}}"
+      value="{{value}}"
+      [checked]="checked"
+      [disabled]="disabled"
+      (change)="emitValue($event.target.checked)">
+    <span class="sy-toggle__switch-bar"></span>
+    <span class="sy-toggle__switch-thumb"></span>
+  </span>
+  <span class="sy-toggle__label">{{label}}</span>
+</label>

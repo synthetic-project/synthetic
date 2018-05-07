@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Synthetic Elements</title>
+  <base href="/">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <style>
+    section {
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    section > div {
+      font-family: sans-serif;
+      width: 40%;
+    }
+  </style>
+</head>
+<body>
+<section>
+  <sy-toggle name="color" value="red" label="Red"></sy-toggle>
+  <sy-toggle name="color" value="blue" label="Blue" checked="true"></sy-toggle>
+  <sy-toggle name="color" value="green" label="Green"></sy-toggle>
+</section>
+<br><br>
+<section>
+  <sy-toggle name="disabled" label="Green is disabled" checked="true"></sy-toggle>
+</section>
+<section>
+  <sy-toggle name="checked" label="Green is checked" checked="true"></sy-toggle>
+</section>
+<br><br>
+<section>
+  <div>Label position</div>
+  <sy-toggle type="radio" name="position" value="before" label="Before"></sy-toggle>
+  <sy-toggle type="radio" name="position" value="after" label="After" checked="true"></sy-toggle>
+</section>
+<br><br>
+<section>
+  <div>Theme</div>
+  <sy-toggle type="radio" name="theme" value="ios" label="iOS"></sy-toggle>
+  <sy-toggle type="radio" name="theme" value="material" label="Material" checked="true"></sy-toggle>
+</section>
+</body>
+
+<script>
+  const syToggleList = document.querySelectorAll('sy-toggle');
+  const syToggleDisabled = document.querySelector('sy-toggle[name="disabled"]');
+  const syToggleChecked = document.querySelector('sy-toggle[name="checked"]');
+  const syTogglePositions = document.querySelectorAll('sy-toggle[name="position"]');
+  const syToggleThemes = document.querySelectorAll('sy-toggle[name="theme"]');
+  const syToggleGreen = document.querySelector('sy-toggle[value="green"]');
+  const toggleGreen = (attribute, value) => syToggleGreen.setAttribute(attribute, value);
+
+  toggleGreen('disabled', syToggleDisabled.getAttribute('checked'));
+  toggleGreen('checked', syToggleChecked.getAttribute('checked'));
+
+  syToggleDisabled.addEventListener('syChange', (event) => {
+    toggleGreen('disabled', event.detail.checked);
+  });
+
+  syToggleChecked.addEventListener('syChange', (event) => {
+    toggleGreen('checked', event.detail.checked);
+  });
+
+  syTogglePositions.forEach((togglePosition) => {
+    togglePosition.addEventListener('syChange', (event) => {
+      syToggleList.forEach(toggle => toggle.setAttribute('label-position', event.detail.value));
+    });
+  });
+
+  syToggleThemes.forEach((toggleTheme) => {
+    toggleTheme.addEventListener('syChange', (event) => {
+      syToggleList.forEach(toggle => toggle.setAttribute('theme', event.detail.value));
+    });
+  });
+
+</script>
+</html>
