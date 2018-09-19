@@ -6,7 +6,13 @@ import { ToggleComponent } from './toggle.component';
 
 @Component({
   template: `
-    <sy-toggle name="foo" (syChange)="onChanges($event)" [disabled]="disabled"></sy-toggle>`
+    <sy-toggle
+      name="foo"
+      [value]="{bar: 'baz'}"
+      [disabled]="disabled"
+      (syChange)="onChanges($event)">
+    </sy-toggle>
+  `
 })
 class TestHostComponent {
   changes: any;
@@ -111,7 +117,7 @@ fdescribe('ToggleComponent', () => {
       expect(childToggle.componentInstance.disabled).toBe(true);
     });
 
-    fit('should prevent click on input disabled', () => {
+    it('should prevent click on input disabled', () => {
       hostComponent.disabled = true;
       hostFixture.detectChanges();
       const syToggleInput = <HTMLInputElement>hostElement.querySelector('sy-toggle input');
@@ -166,7 +172,7 @@ fdescribe('ToggleComponent', () => {
       hostFixture.detectChanges();
       const syToggleInput = <HTMLInputElement>hostElement.querySelector('sy-toggle input');
       syToggleInput.click();
-      expect(hostComponent.changes).toEqual({name: 'foo', value: true, checked: true});
+      expect(hostComponent.changes).toEqual({name: 'foo', value: {bar: 'baz'}, checked: true});
     });
   })
 });
