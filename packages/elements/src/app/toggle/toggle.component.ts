@@ -1,8 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation, HostBinding, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+  HostBinding,
+  SimpleChanges,
+  OnChanges
+} from '@angular/core';
 
 type SyToggleTheme = 'material' | 'ios';
 type SyToggleType = 'checkbox' | 'radio';
-type SyLabelPosition = 'before' | 'after';
+type SyTogglePosition = 'before' | 'after';
 type SyBoolean = boolean | 'true' | 'false';
 
 @Component({
@@ -14,20 +24,19 @@ type SyBoolean = boolean | 'true' | 'false';
 export class ToggleComponent implements OnInit, OnChanges {
   @Input() name: string;
   @Input() value: string;
-  @Input() label: string;
   @Input() checked: SyBoolean;
   @Input() disabled: SyBoolean;
   @Input() type: SyToggleType = 'checkbox';
   @Input() theme: SyToggleTheme = 'material';
-  @Input() labelPosition: SyLabelPosition = 'after';
+  @Input() position: SyTogglePosition = 'before';
   @Output() syChange: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('attr.theme') get themeType() {
     return this.theme;
   }
 
-  @HostBinding('attr.label-position') get labelPositionType() {
-    return this.labelPosition;
+  @HostBinding('attr.position') get positionType() {
+    return this.position;
   }
 
   public ngOnInit(): void {
@@ -49,7 +58,6 @@ export class ToggleComponent implements OnInit, OnChanges {
     this.syChange.emit({
       name: this.name,
       value: this.value || checked,
-      label: this.label,
       checked,
     });
   }

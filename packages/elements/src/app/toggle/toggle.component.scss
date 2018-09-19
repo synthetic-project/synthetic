@@ -12,7 +12,7 @@ sy-toggle {
     @include switch--ios;
   }
 
-  &[label-position="before"] .sy-toggle__label {
+  &[position="after"] .sy-toggle__label {
     order: -1;
     margin-left: 0;
     margin-right: 4px;
