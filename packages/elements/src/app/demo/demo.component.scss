@@ -1,0 +1,10 @@
+section {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 24px;
+}
+section > div {
+  font-family: sans-serif;
+  width: 40%;
+}
