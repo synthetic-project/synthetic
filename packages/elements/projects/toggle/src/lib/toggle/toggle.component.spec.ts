@@ -10,6 +10,7 @@ import { ToggleComponent } from './toggle.component';
       name="foo"
       [value]="{bar: 'baz'}"
       [disabled]="disabled"
+      [required]="required"
       (syChange)="onChanges($event)">
     </sy-toggle>
   `
@@ -17,13 +18,14 @@ import { ToggleComponent } from './toggle.component';
 class TestHostComponent {
   changes: any;
   disabled: any;
+  required: any;
 
   onChanges(changes) {
     this.changes = changes;
   }
 }
 
-fdescribe('ToggleComponent', () => {
+describe('ToggleComponent', () => {
   let component: ToggleComponent;
   let element: HTMLElement;
   let fixture: ComponentFixture<ToggleComponent>;
@@ -126,6 +128,30 @@ fdescribe('ToggleComponent', () => {
     });
   });
 
+  describe('[required]', () => {
+    it('should has default input required to false', () => {
+      fixture.detectChanges();
+      const inputEl = query('input').nativeElement;
+      expect(inputEl.required).toBe(false);
+    });
+
+    it('should bind input required', () => {
+      component.required = 'true';
+      fixture.detectChanges();
+      const inputEl = query('input').nativeElement;
+      expect(inputEl.required).toBe(true);
+    });
+
+    it('should change input required', () => {
+      hostFixture.detectChanges();
+      const childToggle = hostFixture.debugElement.query(By.directive(ToggleComponent));
+      expect(childToggle.componentInstance.required).toBe(false);
+      hostComponent.required = true;
+      hostFixture.detectChanges();
+      expect(childToggle.componentInstance.required).toBe(true);
+    });
+  });
+
   describe('[type]', () => {
     it('should has default input type', () => {
       fixture.detectChanges();
@@ -168,7 +194,7 @@ fdescribe('ToggleComponent', () => {
   });
 
   describe('(syChange)', () => {
-    it('should emit changes if value change', () => {
+    it('should emit changes if checked change', () => {
       hostFixture.detectChanges();
       const syToggleInput = <HTMLInputElement>hostElement.querySelector('sy-toggle input');
       syToggleInput.click();

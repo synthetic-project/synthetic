@@ -2,9 +2,10 @@
   <span class="sy-toggle__switch">
     <input
       class="sy-toggle__switch-input"
-      type="{{type}}"
-      name="{{name}}"
-      value="{{value}}"
+      [type]="type"
+      [name]="name"
+      [value]="value"
+      [required]="required"
       [checked]="checked"
       [disabled]="disabled"
       (change)="emitValue($event.target.checked)">

@@ -10,10 +10,10 @@ import {
   OnChanges
 } from '@angular/core';
 
-type SyToggleTheme = 'material' | 'ios';
-type SyToggleType = 'checkbox' | 'radio';
-type SyTogglePosition = 'before' | 'after';
-type SyBoolean = boolean | 'true' | 'false';
+export type ToggleTheme = 'material' | 'ios';
+export type ToggleType = 'checkbox' | 'radio';
+export type TogglePosition = 'before' | 'after';
+export type ToggleBoolean = boolean | 'true' | 'false';
 
 @Component({
   selector: 'sy-toggle',
@@ -22,14 +22,15 @@ type SyBoolean = boolean | 'true' | 'false';
   encapsulation: ViewEncapsulation.None
 })
 export class ToggleComponent implements OnInit, OnChanges {
-  @Input() name: string;
-  @Input() value: string;
-  @Input() checked: SyBoolean;
-  @Input() disabled: SyBoolean;
-  @Input() type: SyToggleType = 'checkbox';
-  @Input() theme: SyToggleTheme = 'material';
-  @Input() position: SyTogglePosition = 'before';
-  @Output() syChange: EventEmitter<any> = new EventEmitter();
+  @Input() public name: string;
+  @Input() public value: any;
+  @Input() public checked: ToggleBoolean;
+  @Input() public disabled: ToggleBoolean;
+  @Input() public required: ToggleBoolean;
+  @Input() public type: ToggleType = 'checkbox';
+  @Input() public theme: ToggleTheme = 'material';
+  @Input() public position: TogglePosition = 'before';
+  @Output() public syChange: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('attr.theme') get themeType() {
     return this.theme;
@@ -42,9 +43,10 @@ export class ToggleComponent implements OnInit, OnChanges {
   public ngOnInit(): void {
     this.checked = this.convertToBoolean(this.checked);
     this.disabled = this.convertToBoolean(this.disabled);
+    this.required = this.convertToBoolean(this.required);
   }
 
-  public ngOnChanges({checked, disabled}: SimpleChanges) {
+  public ngOnChanges({checked, disabled, required}: SimpleChanges) {
     if (checked) {
       this.checked = this.convertToBoolean(checked.currentValue);
       this.emitValue(this.checked);
@@ -52,17 +54,20 @@ export class ToggleComponent implements OnInit, OnChanges {
     if (disabled) {
       this.disabled = this.convertToBoolean(disabled.currentValue);
     }
+    if (required) {
+      this.required = this.convertToBoolean(required.currentValue);
+    }
   }
 
   public emitValue(checked: boolean): void {
     this.syChange.emit({
       name: this.name,
-      value: this.value || checked,
+      value: this.value,
       checked,
     });
   }
 
-  private convertToBoolean(value: SyBoolean): boolean {
+  private convertToBoolean(value: ToggleBoolean): boolean {
     return value === 'false' ? false : !!value;
   }
 }

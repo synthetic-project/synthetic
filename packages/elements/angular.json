@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "synthetic-elements": {
+    "elements": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,28 +17,26 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/synthetic-elements",
+            "outputPath": "dist/elements",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": [
-              {
-                "input": "node_modules/document-register-element/build/document-register-element.js"
-              }
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environment.ts",
-                  "with": "src/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -56,18 +54,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "synthetic-elements:build"
+            "browserTarget": "elements:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "synthetic-elements:build:production"
+              "browserTarget": "elements:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "synthetic-elements:build"
+            "browserTarget": "elements:build"
           }
         },
         "test": {
@@ -78,10 +76,12 @@
             "tsConfig": "src/tsconfig.spec.json",
             "karmaConfig": "src/karma.conf.js",
             "styles": [
-              "styles.scss"
+              "src/styles.scss"
             ],
             "scripts": [],
             "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ]
           }
         },
@@ -99,7 +99,7 @@
         }
       }
     },
-    "synthetic-elements-e2e": {
+    "elements-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "architect": {
@@ -107,7 +107,12 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "synthetic-elements:serve"
+            "devServerTarget": "elements:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "elements:serve:production"
+            }
           }
         },
         "lint": {
@@ -120,7 +125,47 @@
           }
         }
       }
+    },
+    "toggle": {
+      "root": "projects/toggle",
+      "sourceRoot": "projects/toggle/src",
+      "projectType": "library",
+      "prefix": "sy",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/toggle/tsconfig.lib.json",
+            "project": "projects/toggle/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/toggle/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/toggle/src/test.ts",
+            "tsConfig": "projects/toggle/tsconfig.spec.json",
+            "karmaConfig": "projects/toggle/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/toggle/tsconfig.lib.json",
+              "projects/toggle/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "synthetic-elements"
+  "defaultProject": "elements"
 }
